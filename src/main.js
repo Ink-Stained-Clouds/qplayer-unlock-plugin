@@ -362,17 +362,38 @@ function copyUrl(url) {
   });
 }
 
+function saveUrl(meta, url) {
+  var artist = (meta.artist || []).join(" ");
+  var filename = (meta.name || "audio") + (artist ? " - " + artist : "");
+  var mime = "audio/mpeg";
+  var ext = ".mp3";
+  var lower = String(url).toLowerCase();
+  if (lower.indexOf(".flac") >= 0) { mime = "audio/flac"; ext = ".flac"; }
+  else if (lower.indexOf(".m4a") >= 0 || lower.indexOf(".mp4") >= 0) { mime = "audio/mp4"; ext = ".m4a"; }
+  if (filename.toLowerCase().slice(-ext.length) !== ext) filename += ext;
+  return call("files.save", {
+    url: url,
+    filename: filename,
+    mimeType: mime,
+    headers: {}
+  }).then(function (ok) {
+    return notify(ok === false ? "已取消保存" : "已保存到所选位置");
+  }, function (error) {
+    return notify("保存失败：" + (error && error.message ? error.message : error));
+  });
+}
+
 function downloadCurrent() {
   return call("playback.read", {}).then(function (state) {
     var id = state && state.currentSongId;
     if (!id) {
-      return notify("当前不是本插件搜到的歌。QQ/网易云请直接右键「缓存歌曲」，走对应音源的解锁下载。");
+      return notify("当前不是本插件搜到的歌。QQ/网易云请直接右键「下载」。");
     }
     var meta = decodeId(id);
     if (!meta) return notify("当前歌曲不属于解锁下载插件");
     return resolveForMeta(meta, "exhigh").then(function (url) {
       if (!url) return notify("没有可用直链");
-      return copyUrl(url);
+      return saveUrl(meta, url);
     });
   }, function () {
     return notify("读不到当前播放状态");
@@ -395,7 +416,7 @@ function settingsDialog(args) {
   return next.then(function (list) {
     var switches = [
       {type: "text", style: "body",
-        text: "右键「缓存歌曲」只写入 QPlayer 内部 *.cache，不能当 mp3 用。导出：python scripts/export-cache.py，默认写到缓存根目录的 Music 文件夹。"}
+        text: "QQ/网易云请用宿主右键「下载」。本插件搜到的歌可用播放页「下载当前」。"}
     ];
     var keys = ["netease", "joox", "kuwo"];
     for (var i = 0; i < keys.length; i++) {
@@ -424,11 +445,11 @@ function downloadDialog(args) {
         subtitle: "解锁下载",
         icon: "download",
         body: [
-          {type: "text", style: "body", text: "已尝试复制当前曲的解锁直链。"},
+          {type: "text", style: "body", text: "已尝试保存当前曲。"},
           {type: "text", style: "caption",
-            text: "QQ/网易云请在对应列表右键「缓存歌曲」。本按钮只复制本插件当前曲的直链。"},
+            text: "QQ/网易云请在对应列表右键「下载」。本按钮保存本插件当前曲。"},
           {type: "row", items: [
-            {type: "button", id: "copy", label: "再复制一次", style: "filled"}
+            {type: "button", id: "copy", label: "再保存一次", style: "filled"}
           ]}
         ]
       };
@@ -440,11 +461,11 @@ function downloadDialog(args) {
     icon: "download",
     body: [
       {type: "text", style: "body",
-        text: "右键「缓存歌曲」只是内部离线副本。要可播放的 mp3：先缓存，再运行 python scripts/export-cache.py。"},
+        text: "任意 QQ/网易云歌曲：右键「下载」，弹出保存框后写成 mp3/flac。本按钮保存本插件当前曲。"},
       {type: "text", style: "caption",
-        text: "直链可拿去浏览器另存。已缓存的歌请用 scripts/export-cache.py 导出成「歌名 - 歌手.mp3」。"},
+        text: "需要本插件当前曲时点「保存文件」。"},
       {type: "row", items: [
-        {type: "button", id: "copy", label: "复制直链", style: "filled"}
+        {type: "button", id: "copy", label: "保存文件", style: "filled"}
       ]}
     ]
   };

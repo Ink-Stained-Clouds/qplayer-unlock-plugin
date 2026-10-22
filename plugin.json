@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "id": "unlock",
   "name": "解锁下载",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "apiVersion": "1.0",
-  "minHostVersion": "1.6.5",
+  "minHostVersion": "1.8.6",
   "entry": "src/main.js",
   "publisher": "Ink-Stained-Clouds",
   "capabilities": [
@@ -21,7 +21,8 @@
     "clipboard",
     "playbackRead",
     "notifications",
-    "customUi"
+    "customUi",
+    "files.save"
   ],
   "networkDomains": [
     "music-api.gdstudio.xyz",

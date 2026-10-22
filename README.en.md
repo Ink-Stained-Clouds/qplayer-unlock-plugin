@@ -2,29 +2,18 @@
 
 <p><a href="README.md">简体中文</a> · <b>English</b></p>
 
-Independent source plugin: search by title, match a playable URL from NetEase /
-JOOX / Kuwo. QPlayer itself has no online sources; this package implements ABI 1.0.
+Independent source plugin. Requires a QPlayer build with `files.save`
+(`D:/desktop/qplayer` in this workspace).
 
-Downloads of arbitrary QQ Music / NetEase tracks do **not** go through this plugin
-(the host owns the song context menu). They go through each source's
-`resolveStream`. Use the patched NetEase and QQ plugins: unplayable, trial, or VIP
-tracks are rematched, and right-click **Cache song** writes the full unlocked
-stream into QPlayer's internal `*.cache` files. Those are not named mp3s.
+Any QQ / NetEase track: right-click **Download**. The host save dialog writes a
+named `.mp3` / `.flac` / `.m4a`. **Cache this song** remains an internal
+offline copy.
 
-Plugins cannot read the host filesystem. Export playable files on the machine:
+This plugin's player-bar **Download current** calls `files.save` only for a
+track found through this plugin.
 
 ```bash
 python scripts/export-cache.py
-python scripts/export-cache.py --out D:/Music
 ```
 
-Default output is `<cacheFolder>/Music/<title> - <artist>.mp3`.
-
-Not affiliated with NetEase, JOOX, Kuwo, QQ Music, or GDStudio.
-
-## Build
-
-```bash
-./scripts/package.sh
-python3 scripts/verify-package.py dist/*.qplug
-```
+still batch-exports existing `*.cache` files into a Music folder.
