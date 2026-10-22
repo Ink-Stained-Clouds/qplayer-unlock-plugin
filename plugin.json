@@ -41,6 +41,8 @@
     "search.kuwo.cn",
     "mobi.kuwo.cn",
     "bd-api.kuwo.cn",
+    "bd-er.kuwo.cn",
+    "*.bd-er.kuwo.cn",
     "*.kuwo.cn",
     "*.kwcdn.kuwo.cn",
     "*.joox.com",

@@ -1,8 +1,8 @@
 "use strict";
 
-// 独立解锁音源。QPlayer 的歌曲右键菜单由宿主写死，插件无法往里面塞条目；
-// 对本插件搜到的歌，右键「缓存歌曲」会调用本插件 resolveStream，把解锁直链下到
-// 宿主缓存目录。播放页「下载当前」复制直链；设置页可选音源。
+// 独立解锁音源。宿主右键菜单写死，插件加不进去；任意音源的下载必须走
+// 该音源自己的 resolveStream。QQ/网易那两份插件已把缓存链换成可下载的解锁直链。
+// 本插件负责搜索解锁，以及播放页复制当前曲直链。
 
 var kuwo = require("./kuwo");
 
@@ -366,7 +366,7 @@ function downloadCurrent() {
   return call("playback.read", {}).then(function (state) {
     var id = state && state.currentSongId;
     if (!id) {
-      return notify("当前没有本插件的歌曲。请先用「解锁下载」搜索后再播放，右键「缓存歌曲」即可下载。");
+      return notify("当前不是本插件搜到的歌。QQ/网易云请直接右键「缓存歌曲」，走对应音源的解锁下载。");
     }
     var meta = decodeId(id);
     if (!meta) return notify("当前歌曲不属于解锁下载插件");
@@ -395,7 +395,7 @@ function settingsDialog(args) {
   return next.then(function (list) {
     var switches = [
       {type: "text", style: "body",
-        text: "搜索与解锁时依次尝试已开启的音源。对本插件搜到的歌，右键「缓存歌曲」会把解锁直链下到 QPlayer 缓存。"}
+        text: "本插件搜到的歌可右键缓存。QQ/网易云的歌请在对应音源里右键「缓存歌曲」，官方无版权或仅试听时会自动换源下载。"}
     ];
     var keys = ["netease", "joox", "kuwo"];
     for (var i = 0; i < keys.length; i++) {
@@ -426,7 +426,7 @@ function downloadDialog(args) {
         body: [
           {type: "text", style: "body", text: "已尝试复制当前曲的解锁直链。"},
           {type: "text", style: "caption",
-            text: "对本插件搜到的歌，在列表右键选择「缓存歌曲」即可下载到本地缓存。"},
+            text: "QQ/网易云请在对应列表右键「缓存歌曲」。本按钮只复制本插件当前曲的直链。"},
           {type: "row", items: [
             {type: "button", id: "copy", label: "再复制一次", style: "filled"}
           ]}
@@ -440,9 +440,9 @@ function downloadDialog(args) {
     icon: "download",
     body: [
       {type: "text", style: "body",
-        text: "QPlayer 不允许插件往右键菜单塞条目。对本插件搜到的歌，右键「缓存歌曲」就是解锁下载。"},
+        text: "任意 QQ/网易云歌曲：在那条歌上右键「缓存歌曲」。宿主会走对应音源的解锁直链下载到缓存。"},
       {type: "text", style: "caption",
-        text: "正在播放本插件的歌时，点下面按钮复制直链，可拿到浏览器另存。"},
+        text: "本按钮只复制「解锁下载」当前曲的直链。其他音源的歌请用右键缓存。"},
       {type: "row", items: [
         {type: "button", id: "copy", label: "复制直链", style: "filled"}
       ]}
