@@ -9,7 +9,16 @@ Downloads of arbitrary QQ Music / NetEase tracks do **not** go through this plug
 (the host owns the song context menu). They go through each source's
 `resolveStream`. Use the patched NetEase and QQ plugins: unplayable, trial, or VIP
 tracks are rematched, and right-click **Cache song** writes the full unlocked
-stream into QPlayer's cache.
+stream into QPlayer's internal `*.cache` files. Those are not named mp3s.
+
+Plugins cannot read the host filesystem. Export playable files on the machine:
+
+```bash
+python scripts/export-cache.py
+python scripts/export-cache.py --out D:/Music
+```
+
+Default output is `<cacheFolder>/Music/<title> - <artist>.mp3`.
 
 Not affiliated with NetEase, JOOX, Kuwo, QQ Music, or GDStudio.
 

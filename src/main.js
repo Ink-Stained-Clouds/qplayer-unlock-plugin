@@ -395,7 +395,7 @@ function settingsDialog(args) {
   return next.then(function (list) {
     var switches = [
       {type: "text", style: "body",
-        text: "本插件搜到的歌可右键缓存。QQ/网易云的歌请在对应音源里右键「缓存歌曲」，官方无版权或仅试听时会自动换源下载。"}
+        text: "右键「缓存歌曲」只写入 QPlayer 内部 *.cache，不能当 mp3 用。导出：python scripts/export-cache.py，默认写到缓存根目录的 Music 文件夹。"}
     ];
     var keys = ["netease", "joox", "kuwo"];
     for (var i = 0; i < keys.length; i++) {
@@ -440,9 +440,9 @@ function downloadDialog(args) {
     icon: "download",
     body: [
       {type: "text", style: "body",
-        text: "任意 QQ/网易云歌曲：在那条歌上右键「缓存歌曲」。宿主会走对应音源的解锁直链下载到缓存。"},
+        text: "右键「缓存歌曲」只是内部离线副本。要可播放的 mp3：先缓存，再运行 python scripts/export-cache.py。"},
       {type: "text", style: "caption",
-        text: "本按钮只复制「解锁下载」当前曲的直链。其他音源的歌请用右键缓存。"},
+        text: "直链可拿去浏览器另存。已缓存的歌请用 scripts/export-cache.py 导出成「歌名 - 歌手.mp3」。"},
       {type: "row", items: [
         {type: "button", id: "copy", label: "复制直链", style: "filled"}
       ]}
