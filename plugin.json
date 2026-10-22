@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "id": "unlock",
+  "name": "解锁下载",
+  "version": "0.1.0",
+  "apiVersion": "1.0",
+  "minHostVersion": "1.6.5",
+  "entry": "src/main.js",
+  "publisher": "Ink-Stained-Clouds",
+  "capabilities": [
+    "searchSongs",
+    "hotSearch",
+    "songDetails",
+    "resolveStream",
+    "lyrics",
+    "share"
+  ],
+  "permissions": [
+    "network",
+    "clearTextNetwork",
+    "clipboard",
+    "playbackRead",
+    "notifications",
+    "customUi"
+  ],
+  "networkDomains": [
+    "music-api.gdstudio.xyz",
+    "music.gdstudio.xyz",
+    "music.gdstudio.org",
+    "music-proxy.gdstudio.org",
+    "music.126.net",
+    "*.music.126.net",
+    "p1.music.126.net",
+    "p2.music.126.net",
+    "p3.music.126.net",
+    "p4.music.126.net",
+    "m7.music.126.net",
+    "m8.music.126.net",
+    "m801.music.126.net",
+    "m704.music.126.net",
+    "search.kuwo.cn",
+    "mobi.kuwo.cn",
+    "bd-api.kuwo.cn",
+    "*.kuwo.cn",
+    "*.kwcdn.kuwo.cn",
+    "*.joox.com",
+    "*.tencentmusic.com"
+  ],
+  "networkMethods": [
+    "GET",
+    "POST"
+  ],
+  "ui": [
+    {
+      "id": "download",
+      "placement": "playerAction",
+      "label": "下载当前",
+      "icon": "download"
+    },
+    {
+      "id": "settings",
+      "placement": "settings",
+      "label": "解锁下载",
+      "icon": "tune"
+    }
+  ]
+}
