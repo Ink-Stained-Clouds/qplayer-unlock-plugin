@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "unlock",
   "name": "解锁下载",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "apiVersion": "1.0",
   "minHostVersion": "1.8.6",
   "entry": "src/main.js",
