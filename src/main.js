@@ -378,8 +378,10 @@ function saveUrl(meta, url) {
     headers: {}
   }).then(function (ok) {
     return notify(ok === false ? "已取消保存" : "已保存到所选位置");
-  }, function (error) {
-    return notify("保存失败：" + (error && error.message ? error.message : error));
+  }, function () {
+    return copyUrl(url).then(function () {
+      return notify("当前 QPlayer 不能弹出保存框，已复制直链");
+    });
   });
 }
 
@@ -416,7 +418,7 @@ function settingsDialog(args) {
   return next.then(function (list) {
     var switches = [
       {type: "text", style: "body",
-        text: "QQ/网易云请用宿主右键「下载」。本插件搜到的歌可用播放页「下载当前」。"}
+        text: "官方 QPlayer 请用右键「缓存此歌曲」再运行 python scripts/export-cache.py。带 files.save 的构建可右键「下载」。"}
     ];
     var keys = ["netease", "joox", "kuwo"];
     for (var i = 0; i < keys.length; i++) {
@@ -461,7 +463,7 @@ function downloadDialog(args) {
     icon: "download",
     body: [
       {type: "text", style: "body",
-        text: "任意 QQ/网易云歌曲：右键「下载」，弹出保存框后写成 mp3/flac。本按钮保存本插件当前曲。"},
+        text: "带 files.save 的 QPlayer 会弹出保存框。官方版会复制直链，或先缓存再运行 scripts/export-cache.py。"},
       {type: "text", style: "caption",
         text: "需要本插件当前曲时点「保存文件」。"},
       {type: "row", items: [
