@@ -11,6 +11,8 @@ function notify(message) {
 }
 
 function downloadCurrent() {
+  // files.downloadCurrent 走当前正在播放的那首歌（QQ / 网易云都可以），
+  // 不再要求本插件自己的曲目。
   return call("files.downloadCurrent", {}).then(function () {
     return true;
   }, function (error) {
@@ -32,20 +34,19 @@ function helpDialog() {
       {type: "text", style: "body",
         text: "本插件不提供歌曲搜索。请用网易云或 QQ 音乐搜歌，再右键下载并选音质。"},
       {type: "text", style: "caption",
-        text: "宿主弹出音质选择后，按播放同一条 resolveStream 拉流，并写入封面和歌词。"}
+        text: "宿主弹出音质选择后，按播放同一条 resolveStream 拉流，并写入封面和歌词。安装本插件需要先启用 QQ 音乐或网易云音乐。"}
     ]
   };
 }
 
 function downloadDialog(args) {
-  if (args && (args.action === "save" || args.action === "open")) {
-    return downloadCurrent().then(helpDialog);
+  var action = args && args.action;
+  if (action === "save" || action === "open") {
+    return downloadCurrent().then(function () {
+      return helpDialog();
+    });
   }
-  var page = helpDialog();
-  page.body.push({type: "row", items: [
-    {type: "button", id: "save", label: "下载当前", style: "filled", enabled: true}
-  ]});
-  return page;
+  return helpDialog();
 }
 
 module.exports = {

@@ -2,9 +2,11 @@
 
 <p><a href="README.md">简体中文</a> · <b>English</b></p>
 
-This plugin does not search or play songs. Search with NetEase / QQ Music, then:
+This plugin does not search or play songs. Install and enable **QQ Music** or
+**NetEase Cloud Music** first. Search with that source, then:
 
 - right-click **Download** and pick a quality
+- tap the per-row **Download** button that this plugin adds to playlists
 - or tap **Download current** on the now-playing page
 
 Qualities: 128k / 192k / 320k / lossless / Hi-Res. The host calls that source's
